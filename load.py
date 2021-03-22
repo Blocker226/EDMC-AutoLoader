@@ -1,6 +1,6 @@
-#  EDMC AutoLoader V1.0
+#  EDMC AutoLoader V0.2
 #  Copyright (c) 2020 Blocker226. Released under GNU GPL 3.0
-#  repo link
+#  https://github.com/Blocker226/EDMC-AutoLoader
 
 import logging
 import os
@@ -100,7 +100,10 @@ class AutoLoader:
         nB.Button(button_frame, text="Delete", command=self.del_program).grid(row=0, column=1)
         nB.Button(button_frame, text="Launch All", command=self.run_programs).grid(row=0, column=2)
         current_row += 1
-        nB.Label(frame, text="EDMC Autoloader v0.1 by CMDR Blocker226").grid(padx=10, pady=(10, 0),
+        nB.Label(frame, text="EDMC Autoloader v0.2 by CMDR Blocker226").grid(padx=10, pady=(20, 0),
+                                                                             row=current_row, sticky="w")
+        current_row += 1
+        nB.Label(frame, text="https://github.com/Blocker226/EDMC-AutoLoader").grid(padx=10, pady=(10, 0),
                                                                              row=current_row, sticky="w")
 
         return frame
