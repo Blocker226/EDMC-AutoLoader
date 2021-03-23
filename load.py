@@ -1,4 +1,4 @@
-#  EDMC AutoLoader V0.21
+#  EDMC AutoLoader v0.22
 #  Copyright (c) 2020 Blocker226. Released under GNU GPL 3.0
 #  https://github.com/Blocker226/EDMC-AutoLoader
 
@@ -14,6 +14,7 @@ import myNotebook as nB
 from config import appname, config
 
 PLUGIN_NAME = "AutoLoader"
+PLUGIN_VERSION = "v0.22"
 PLACEHOLDER_MSG = "Nothing Configured."
 
 logger = logging.getLogger(f"{appname}.{PLUGIN_NAME}")
@@ -103,7 +104,7 @@ class AutoLoader:
         nB.Button(button_frame, text="Delete", command=self.del_program).grid(row=0, column=1)
         nB.Button(button_frame, text="Launch All", command=self.run_programs).grid(row=0, column=2)
         current_row += 1
-        nB.Label(frame, text="EDMC Autoloader v0.21 by CMDR Blocker226").grid(padx=10, pady=(20, 0),
+        nB.Label(frame, text=f"EDMC Autoloader {PLUGIN_VERSION} by CMDR Blocker226").grid(padx=10, pady=(20, 0),
                                                                               row=current_row, sticky="w")
         current_row += 1
         HyperlinkLabel(frame, text='https://github.com/Blocker226/EDMC-AutoLoader',
@@ -115,8 +116,11 @@ class AutoLoader:
 
     def on_preferences_closed(self, cmdr: str, is_beta: bool) -> None:
         if self.load_list:
-            logger.info("Saving " + str(len(self.load_list)) + " items to preferences.")
+            logger.info(f"Saving {len(self.load_list)} items to preferences.")
             config.set('auto_loader_list', '\n'.join(self.load_list))
+        elif self.raw_list.get():
+            logger.info("List empty, deleting config entry.")
+            config.delete('auto_loader_list')
 
 
 al = AutoLoader()
