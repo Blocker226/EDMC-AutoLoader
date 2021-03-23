@@ -1,4 +1,4 @@
-#  EDMC AutoLoader V0.2
+#  EDMC AutoLoader V0.21
 #  Copyright (c) 2020 Blocker226. Released under GNU GPL 3.0
 #  https://github.com/Blocker226/EDMC-AutoLoader
 
@@ -7,6 +7,7 @@ import os
 import subprocess
 import tkinter as tk
 from tkinter import filedialog
+from ttkHyperlinkLabel import HyperlinkLabel
 from typing import Optional
 
 import myNotebook as nB
@@ -41,6 +42,8 @@ class AutoLoader:
     def add_program(self):
         new_program = tk.filedialog.askopenfilename(initialdir="/", title="Select Program", filetypes=[
             ("exe Files", "*.exe"), ("All Files", "*.*")])
+        if not new_program:
+            return
         if new_program not in self.load_list:
             self.load_list.append(new_program)
             logger.debug("Added item " + new_program)
@@ -48,7 +51,7 @@ class AutoLoader:
 
     def del_program(self) -> None:
         if self.lb.get(self.lb.curselection()):
-            logger.debug("Deleting item " + self.lb.curselection())
+            logger.debug("Deleting item " + self.lb.get(self.lb.curselection()))
             self.load_list.remove(self.lb.get(self.lb.curselection()))
         self.refresh_list()
 
@@ -100,11 +103,13 @@ class AutoLoader:
         nB.Button(button_frame, text="Delete", command=self.del_program).grid(row=0, column=1)
         nB.Button(button_frame, text="Launch All", command=self.run_programs).grid(row=0, column=2)
         current_row += 1
-        nB.Label(frame, text="EDMC Autoloader v0.2 by CMDR Blocker226").grid(padx=10, pady=(20, 0),
-                                                                             row=current_row, sticky="w")
+        nB.Label(frame, text="EDMC Autoloader v0.21 by CMDR Blocker226").grid(padx=10, pady=(20, 0),
+                                                                              row=current_row, sticky="w")
         current_row += 1
-        nB.Label(frame, text="https://github.com/Blocker226/EDMC-AutoLoader").grid(padx=10, pady=(10, 0),
-                                                                             row=current_row, sticky="w")
+        HyperlinkLabel(frame, text='https://github.com/Blocker226/EDMC-AutoLoader',
+                       background=nB.Label().cget('background'),
+                       url="https://github.com/Blocker226/EDMC-AutoLoader")\
+            .grid(padx=10, row=current_row, sticky="nsew")
 
         return frame
 
@@ -131,7 +136,6 @@ def plugin_prefs(parent: nB.Notebook, cmdr: str, is_beta: bool) -> Optional[tk.F
 
 def prefs_changed(cmdr: str, is_beta: bool) -> None:
     return al.on_preferences_closed(cmdr, is_beta)
-
 
 # def plugin_app(parent: tk.Frame) -> Optional[tk.Frame]:
 #     return al.setup_main_ui(parent)
